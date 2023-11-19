@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "project"
+version = "0.1.0"
+description = "Решение кейса ООО `Промобот` - `Обработка обращений граждан`."
+authors = [
+    "Donskoi Andrei <donskoi.com@gmail.com>",
+    "Artem Medvedev <artiebears@mail.ru>",
+    "Ali Ramazanov <ali_ramazanov_2000@mail.ru>",
+    "Ivan Butakov <>",
+    "Timofei Schcudro <>",
+]
+packages = [
+    { include = "project", from = "." },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.26.2"
+pandas = "^2.1.3"
+scikit-learn = "^1.3.2"
+seaborn = "^0.13.0"
+matplotlib = "^3.8.2"
+tqdm = "^4.66.1"
+torch = "^2.1.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+pre-commit = "^2.19.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 80
+include = '\.pyi?$'
+exclude = '''
+/(
+	\.git
+| \.hg
+| \.mypy_cache
+| \.tox
+| \.venv
+| _build
+| buck-out
+| build   
+)/ 
+'''
