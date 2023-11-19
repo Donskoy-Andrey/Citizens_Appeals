@@ -1,4 +1,5 @@
 def main():
+    """Entry point for project"""
     print("Hello world!")
 
 
