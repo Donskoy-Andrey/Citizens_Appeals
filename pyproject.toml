@@ -23,6 +23,7 @@ matplotlib = "^3.8.2"
 tqdm = "^4.66.1"
 torch = "^2.1.1"
 sphinx = "^7.2.6"
+transformers = "^4.35.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
