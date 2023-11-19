@@ -1,10 +1,5 @@
 name: Test code and app
-on:
-  pull_request:
-    paths:
-      - project/source/**
-      - tests/**
-      - .github/workflows/run_test.yaml
+on: [push]
 jobs:
   run_tests:
     name: Testing project
