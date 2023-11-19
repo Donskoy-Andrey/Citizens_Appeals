@@ -1,19 +1,35 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
 repos:
--   repo: https://github.com/ambv/black
+  # Black
+  - repo: 'https://github.com/psf/black'
     rev: 20.8b1
     hooks:
-    - id: black
-      additional_dependencies: ['click==8.0.4']
--   repo: https://github.com/pycqa/flake8
+      - id: black
+        additional_dependencies: [ 'click==8.0.4' ]
+
+  # Стандартные хуки
+  - repo: 'https://github.com/pre-commit/pre-commit-hooks'
+    rev: v2.4.0
+    hooks:
+      # Проверяет наличие переноса строки в конце
+      - id: end-of-file-fixer
+      # Предупреждает о добавлении больших файлов в git
+      - id: check-added-large-files
+      # Предупреждает о сохранении файлов с UTF-8 BOM
+      - id: check-byte-order-marker
+      # Предотвращает сохранение приватных ключей
+      - id: detect-private-key
+
+  # Задание порядка импорта
+  -   repo: https://github.com/timothycrosley/isort
+      rev: 5.12.0
+      hooks:
+      -   id: isort
+
+  # Flake8
+  - repo: 'https://github.com/pycqa/flake8'
     rev: 3.8.4
     hooks:
-    - id: flake8
--   repo: https://github.com/timothycrosley/isort
-    rev: 5.12.0
-    hooks:
-    -   id: isort
--   repo: https://github.com/econchick/interrogate
-    rev: 1.5.0
-    hooks:
-      - id: interrogate
-        args: [project/source, -v, -i, --fail-under=80]
+      - id: flake8
