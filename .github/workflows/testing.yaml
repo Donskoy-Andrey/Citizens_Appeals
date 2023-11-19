@@ -1,5 +1,10 @@
 name: Test code and app
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 jobs:
   run_tests:
     name: Testing project
