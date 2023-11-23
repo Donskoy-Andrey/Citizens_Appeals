@@ -61,6 +61,7 @@ class Gui:
                 placeholder="Введите обращение...",
                 label_visibility="hidden",
                 height=400,
+                key="text",
             )
             self.submit_button = st.button(
                 label="Submit",
@@ -68,20 +69,19 @@ class Gui:
             )
 
     def submit_click(self):
-        # gif_path = "https://donskow.com/train4"
-        # with self.input_container:
-        #     gif_runner = st.image(gif_path)
+        gif_path = "https://donskow.com/train4"
+        with self.input_container:
+            gif_runner = st.image(gif_path)
         self.draw_accepted(self.text_input_form)
-        # gif_runner.empty()
-        # self.input_container.empty()
+        gif_runner.empty()
 
     def draw_accepted(self, text):
         """
         YOUR CODE HERE
         """
+        # time.sleep(2)
         st.text(self.model.predict(text))
 
-        # time.sleep(4)
         #
         # with self.output_container:
         #     st.markdown('<h2> Ваше заявление принято </h2>', unsafe_allow_html=True)
