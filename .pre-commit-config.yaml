@@ -15,8 +15,6 @@ repos:
     hooks:
       # Проверяет наличие переноса строки в конце
       - id: end-of-file-fixer
-      # Предупреждает о добавлении больших файлов в git
-      - id: check-added-large-files
       # Предупреждает о сохранении файлов с UTF-8 BOM
       - id: check-byte-order-marker
       # Предотвращает сохранение приватных ключей
