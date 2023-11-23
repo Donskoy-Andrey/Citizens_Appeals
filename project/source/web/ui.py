@@ -1,9 +1,11 @@
 from pathlib import Path
 
 import streamlit as st
+from PIL import Image
 
 SRC_PATH = Path(__file__).parent / "src"
 DOWNLOAD_FILENAME = Path("data/file.pdf")
+a = Path("./src/logo.png")
 
 
 class Gui:
@@ -28,8 +30,11 @@ class Gui:
             title, logo = st.columns([5, 1])
             title.title("Обработка обращений граждан «AAA IT»")
             # we.image(str(SRC_PATH / "img.png"), width=100, output_format="PNG")
-
-            logo.image(str("src/logo.png"), width=200, output_format="PNG")
+            logo.image(
+                Image.open(SRC_PATH / "logo.png"),
+                width=200,
+                output_format="PNG",
+            )
 
     def draw_input(self):
         pass
