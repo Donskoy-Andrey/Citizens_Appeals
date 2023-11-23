@@ -70,3 +70,6 @@ help:
 		printf "\n"; \
 	}' \
 	| more $(shell test $(shell uname) = Darwin && echo '--no-init --raw-control-chars')
+
+runui:
+	poetry run streamlit run project/source/web/ui.py
