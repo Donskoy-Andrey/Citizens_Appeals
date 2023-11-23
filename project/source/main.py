@@ -1,7 +1,5 @@
 import os
 
-from IPython import get_ipython
-
 
 def main():
     """Entry point for project"""
