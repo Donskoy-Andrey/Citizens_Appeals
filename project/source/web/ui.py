@@ -3,6 +3,8 @@ from pathlib import Path
 
 import streamlit as st
 
+from project.source.inference import TemplateModel
+
 SRC_PATH = "project/source/web/src/"
 DOWNLOAD_FILENAME = Path("data/file.pdf")
 button_style = """
@@ -24,6 +26,7 @@ class Gui:
         """
         Initialize the class Gui
         """
+        self.model = TemplateModel()
         st.set_page_config(layout="wide")
         self.head_container = st.container()
         self.input_container = st.container()
@@ -74,9 +77,9 @@ class Gui:
 
     def draw_accepted(self, text):
         """
-
         YOUR CODE HERE
         """
+        st.text(self.model.predict(text))
 
         # time.sleep(4)
         #
