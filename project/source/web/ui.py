@@ -52,6 +52,9 @@ class Gui:
             )
 
     def draw_input(self):
+        """
+        draw input box and submit button
+        """
         with self.input_container:
             self.text_input_form = st.text_area(
                 label="text_input_1",
@@ -65,12 +68,12 @@ class Gui:
             )
 
     def submit_click(self):
-        # gif_path = "https://donskow.com/train4"
-        # with self.input_container:
-        #     gif_runner = st.image(gif_path)
+        gif_path = "https://donskow.com/train4"
+        with self.gif_container:
+            gif_runner = st.image(gif_path)
         self.draw_accepted(self.text_input_form)
-        # gif_runner.empty()
-        # self.input_container.empty()
+        gif_runner.empty()
+        # self.gif_container.empty()
 
     def draw_accepted(self, text):
         """
@@ -78,11 +81,13 @@ class Gui:
         YOUR CODE HERE
         """
 
-        # time.sleep(4)
-        #
-        # with self.output_container:
-        #     st.markdown('<h2> Ваше заявление принято </h2>', unsafe_allow_html=True)
-        #     st.markdown(f'<div> {text} </div>', unsafe_allow_html=True)
+        time.sleep(4)
+
+        with self.output_container:
+            st.markdown(
+                "<h2> Ваше заявление принято </h2>", unsafe_allow_html=True
+            )
+            st.markdown(f"<div> {text} </div>", unsafe_allow_html=True)
 
 
 Gui()
