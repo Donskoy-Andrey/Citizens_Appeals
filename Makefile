@@ -1,7 +1,7 @@
 ## Install Python dependencies
 install:
 	@echo "$$(tput bold)Installing python dependencies...$$(tput sgr0)"
-	python -m pip install poetry
+	pip install poetry
 	poetry install
 	poetry run pre-commit install
 
