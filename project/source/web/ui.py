@@ -26,8 +26,8 @@ class Gui:
         """
         st.set_page_config(layout="wide")
         self.head_container = st.container()
-        self.output_container = st.container()
         self.input_container = st.container()
+        self.output_container = st.container()
         self.text_input_form: st.text_area or None = None
         self.submit_button: st.button or None = None
 
