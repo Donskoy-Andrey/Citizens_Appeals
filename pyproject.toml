@@ -7,7 +7,7 @@ authors = [
     "Artem Medvedev <artiebears@mail.ru>",
     "Ali Ramazanov <ali_ramazanov_2000@mail.ru>",
     "Ivan Butakov <>",
-    "Timofei Schcudro <>",
+    "Timofei Shchudro <t.shshudro@alumni.nsu.ru>",
 ]
 packages = [
     { include = "project", from = "." },
