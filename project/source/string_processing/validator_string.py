@@ -111,7 +111,7 @@ def string_validator(raw_text: str):
     if len(raw_text) <= 5:
         return valid_data, raw_text
 
-    raw_text = replace_day(raw_text)
+    # raw_text = replace_day(raw_text)
 
     numbers = pattern_number.findall(raw_text)
     for num in numbers:
