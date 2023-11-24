@@ -1,5 +1,4 @@
 import re
-import time
 
 from project.source.string_processing.validator_string import (
     preprocess_str,
@@ -7,8 +6,10 @@ from project.source.string_processing.validator_string import (
 )
 
 
-def find_start_end(string, pattern):
-    print(f"{string=} {pattern}")
+def find_start_end(string: str, pattern: str) -> list:
+    """
+    return first and second posinion of pattern in string
+    """
     matches = re.finditer(pattern, string)
     start_end_list = []
     for match in matches:
@@ -17,6 +18,13 @@ def find_start_end(string, pattern):
 
 
 def highlight_words(text: str) -> str:
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     to_highlight, new_text = string_validator(preprocess_str(text))
     end_tag = "</u></a>"
     for key, value in to_highlight.items():
