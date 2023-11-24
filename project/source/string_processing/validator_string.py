@@ -1,6 +1,6 @@
 import re
 
-from preprocess import preprocess_str
+from project.source.string_processing.preprocess import preprocess_str
 
 pattern_mail = re.compile(
     r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
@@ -19,7 +19,7 @@ pattern_data = re.compile(
 
 
 def string_validator(raw_text: str) -> dict:
-
+    raw_text = preprocess_str(raw_text)
     valid_data = {
         "Номер": [],
         "Ссылки": [],
