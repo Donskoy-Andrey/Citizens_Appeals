@@ -1,7 +1,5 @@
 import re
 
-valid_data = {"Номер": [], "Ссылки": [], "Почта": []}
-
 
 pattern_mail = re.compile(
     r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
@@ -16,6 +14,7 @@ pattern_digit = re.compile(r"\+?\d+")
 
 
 def string_processing(raw_text: str) -> dict:
+    valid_data = {"Номер": [], "Ссылки": [], "Почта": []}
     numbers = pattern_number.findall(raw_text)
     for num in numbers:
         n = pattern_digit.findall(num)
@@ -32,6 +31,7 @@ def string_processing(raw_text: str) -> dict:
 
     mails = pattern_mail.findall(raw_text)
     valid_data["Почта"].extend(mails)
+    return valid_data
 
 
 string_processing(
