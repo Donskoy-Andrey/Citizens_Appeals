@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<form id="myForm" method="post" >
+    {%csrf_token%}
+  <select name="selected_option" value={{selected}} onchange="this.form.submit()">
+    <option value="Исполнитель" {% if selected == "Исполнитель" %}selected{% endif %}>Исполнитель</option>
+    <option value="Группа тем" {% if selected == "Группа тем" %}selected{% endif %}>Группа тем</option>
+  </select>
+</form>
+<div id="plot_div">
+
+    {% autoescape off %}
+        {{ plot_div }}
+    {% endautoescape %}
+</div>
+<div id="plot_time_series">
+
+    {% autoescape off %}
+        {{ time_series }}
+    {% endautoescape %}
+</div>
+
+<!--<script>-->
+<!--   function updatePlot(selectedOption) {-->
+<!--    let formData = new FormData();-->
+<!--    formData.append('selected_option', selectedOption);-->
+<!--    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);-->
+<!--    formData.append('reason', 'update_plot');-->
+
+<!--    fetch('', {-->
+<!--        method: 'POST',-->
+<!--        body: formData-->
+<!--    })-->
+<!--    .then(response => response.json())-->
+<!--    .then(data => {-->
+<!--        console.log(data['plot_div'])-->
+<!--        document.getElementById('plot_div').innerHTML = data['plot_div'];-->
+<!--    })-->
+<!--    .catch(error => {-->
+<!--        console.error('Error:', error);-->
+<!--    });-->
+<!--}-->
+</script>
+{% endblock content %}

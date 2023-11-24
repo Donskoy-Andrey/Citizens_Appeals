@@ -1,8 +1,11 @@
 import re
 import time
 
-from project.source.string_processing.validator_string import string_validator
 from project.source.ml.entity import predict_entity
+from project.source.string_processing.validator_string import (
+    preprocess_str,
+    string_validator,
+)
 
 
 def find_start_end(string, pattern):
@@ -14,10 +17,9 @@ def find_start_end(string, pattern):
 
 
 def highlight_words(text):
-    to_highlight = string_validator(text)
-    to_highlight_additional = predict_entity(text)
-    print(to_highlight_additional)
-    new_text = text
+    to_highlight, new_text = string_validator(text)
+    to_highlight_additional = predict_entity(new_text)
+
     end_tag = "</u></a>"
 
     for key, value in dict(to_highlight, **to_highlight_additional).items():
