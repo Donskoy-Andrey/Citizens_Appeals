@@ -9,8 +9,6 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
     raw_text = raw_text[1:]
     if demojize:
         raw_text = emoji.demojize(raw_text, "")
-        # print(raw_text)
-        # raw_text = ''.join(char for char in raw_text if char not in emoji.UNICODE_EMOJI)
 
     VK_regexp = re.compile(r"\[(?P<ID>\w+)\|(?P<NAME>[^\[^\]]*)\]")
     raw_text = VK_regexp.sub("\g<NAME>", raw_text)
