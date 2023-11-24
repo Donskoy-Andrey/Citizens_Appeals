@@ -14,19 +14,18 @@ def find_start_end(string, pattern):
 
 def highlight_words(text):
     to_highlight = string_validator(text)
-    print(f"{to_highlight=}")
     new_text = text
     end_tag = "</u></a>"
+
     for key, value in to_highlight.items():
-        print(f"{value=}")
         if key == "Номер":
-            tag = '<a style="background:green"><u>'
+            tag = '<a class="highlighted_text phone_number"><u>'
         elif key == "Ссылки":
-            tag = '<a style="background:yellow"><u>'
+            tag = '<a class="highlighted_text link"><u>'
         elif key == "Почта":
-            tag = '<a style="background:red"><u>'
+            tag = '<a class="highlighted_text email"><u>'
         else:
-            tag = '<a style="background:white"><u>'
+            tag = '<a class="highlighted_text date_time"><u>'
         for word in value:
 
             print(f"{new_text=} {word=}")

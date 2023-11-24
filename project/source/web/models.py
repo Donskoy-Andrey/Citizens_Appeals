@@ -4,6 +4,7 @@ from django.db import models
 class Appeal(models.Model):
 
     text = models.TextField()
+    sentiment = models.TextField(default="")
     executor = models.TextField()
     theme = models.TextField()
     group = models.TextField()
