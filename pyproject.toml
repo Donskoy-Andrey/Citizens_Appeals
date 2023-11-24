@@ -27,6 +27,7 @@ transformers = "^4.35.2"
 datasets = "^2.15.0"
 streamlit = "^1.28.2"
 streamlit-authenticator = "^0.2.3"
+emoji = "^2.8.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

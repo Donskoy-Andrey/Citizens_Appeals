@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from project.source.inference import TemplateModel
+from project.source.ml.inference import setup_model
 
 SRC_PATH = "project/source/web/src/"
 DOWNLOAD_FILENAME = Path("data/file.pdf")
@@ -26,7 +26,7 @@ class Gui:
         """
         Initialize the class Gui
         """
-        self.model = TemplateModel()
+        self.model = setup_model()
         st.set_page_config(layout="wide")
         self.head_container = st.container()
         self.input_container = st.container()
