@@ -1,6 +1,5 @@
 import re
-
-from preprocess import preprocess_str
+import emoji
 
 pattern_mail = re.compile(
     r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
@@ -18,7 +17,54 @@ pattern_data = re.compile(
 )
 
 
-def string_validator(raw_text: str) -> dict:
+def preprocess_str(raw_str: str, demojize: bool = True) -> str:
+    """
+    Preliminary processing of a citizen’s appeal
+
+    Parameters
+    ----------
+    raw_str : str
+        Citizen's appeal.
+    demojize : bool
+        Convert emojis to plain text (takes time!)
+    """
+
+    raw_text = raw_str
+    raw_text = raw_text[1:]
+    if demojize:
+        raw_text = emoji.demojize(raw_text, "")
+
+    VK_regexp = re.compile(r"\[(?P<ID>\w+)\|(?P<NAME>[^\[^\]]*)\]")
+    raw_text = VK_regexp.sub("\g<NAME>", raw_text)
+
+    whitespace_substrings = {"<br>", "\\n"}
+    whitespace_regexp = re.compile(
+        "|".join(re.escape(substring) for substring in whitespace_substrings)
+    )
+    raw_text = re.sub(whitespace_regexp, " ", raw_text)
+
+    ultiple_whitespace_regexp = re.compile("\s+")
+    raw_text = re.sub(ultiple_whitespace_regexp, " ", raw_text)
+    return raw_text
+
+
+def string_validator(raw_text: str) -> dict | int:
+    """
+    Input string validation
+
+    Parameters
+    ----------
+    raw_text : str
+        Citizen's appeal.
+    """
+
+    if not isinstance(raw_text, str):
+        return 0  # неверный формат данных
+
+    if len(raw_text) <= 5:
+        return 1  # некорректная строка
+
+    raw_text = preprocess_str(raw_text)
 
     valid_data = {
         "Номер": [],
@@ -29,7 +75,6 @@ def string_validator(raw_text: str) -> dict:
     }
 
     numbers = pattern_number.findall(raw_text)
-    print(numbers)
     for num in numbers:
         num1 = pattern_digit.findall(num)
         num_concoction = "".join(num1)
@@ -49,9 +94,12 @@ def string_validator(raw_text: str) -> dict:
 
     datas = pattern_data.findall(raw_text)
     valid_data["Дата"].extend(set(datas))
+
     return valid_data
 
 
-# raw_text = "Пермь г, +79194692145. В Перми 20.12.23   с 20.12.23   по   25.12.23    2021 года не работает социальное такси. Каким образом можно получить льготу по проезду в такси в https://m.vk.com/@valekse59-rss-2128466888-976298670 <br>VK соц учреждения инвалиду 2гр.пррезд в общественном транспорте не возможен. Да и проездного льготного не представляется'Добрый день ! Скажите пожалуйста если подовала на пособие с 3 до 7 2 декабря , когда можно повторно подать ? вроде за 30 дней можно"
-#
-# string_validator(preprocess_str(raw_text))
+if __name__ == "__main__":
+    raw_text = "Пермь"
+    raw_text = preprocess_str(raw_text)
+    res = string_validator(raw_text)
+    print(res)
