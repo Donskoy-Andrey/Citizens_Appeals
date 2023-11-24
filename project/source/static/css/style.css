@@ -9,6 +9,34 @@ u {
 a {
   text-decoration: none!important;
 }
+
+.tooltip {
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+/* Tooltip text */
+.tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1;
+  width: auto;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 490;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+  margin-top: -32px;
+  margin-left: -4px;
+}
+
+.highlighted_text:hover .tooltip-text {
+  visibility: visible;
+}
+
+table tr:hover td {
+    background-color: rgb(61,65,69); /* Change to the desired background color */
+}
 .form-control {
   width: 80%;
   height: 5em;
@@ -42,6 +70,7 @@ a {
   justify-content: center;
   font-size: 18px;
 }
+
 .highlighted_text {
   border-radius: 5px;
   width: auto;
@@ -80,7 +109,7 @@ a {
 }
 
 
-.place{
+.location{
   background-color: rgba(245,241,255, 1);
 }
 

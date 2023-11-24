@@ -26,7 +26,6 @@ def main_win(request):
             sentiment_addition = sentiment_cases.get(sentiment)
             if not sentiment_addition:
                 sentiment_addition = ""
-            print(sentiment_addition)
             text = highlight_words(text)
             executors, themes = ml_model.predict(text)
             groups = [theme_to_group_mapping[theme] for theme in themes]

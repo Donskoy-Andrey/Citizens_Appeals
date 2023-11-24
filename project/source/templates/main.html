@@ -14,7 +14,7 @@
 {% if text %}
   {% if sentiment == "negative" %}
     <div class="response_container">
-      <div style="font-size: 40px; margin-top: -1.9%">
+      <div style="font-size: 40px; margin-top: -2%">
         &#129324;
       </div>
       {{text|safe}}
@@ -22,7 +22,7 @@
   {% endif %}
   {% if sentiment == "positive" %}
     <div class="response_container">
-      <div style="font-size: 40px; margin-top: -1.9%">
+      <div style="font-size: 40px; margin-top: -2%">
        &#128578;
       </div>
       {{text|safe}}
@@ -30,7 +30,7 @@
   {% endif %}
   {% if sentiment == "neutral" %}
     <div class="response_container">
-      <div style="font-size: 40px; margin-top: -1.9%">
+      <div style="font-size: 40px; margin-top: -2%">
        &#128528;
       </div>
       {{text|safe}}
@@ -38,12 +38,6 @@
   {% endif %}
 
 {% endif %}
-
-<style>
-  table tr:hover td {
-    background-color: #f5f5f5; /* Change to the desired background color */
-  }
-</style>
 
 {% if executor|length > 0 and theme|length > 0 and group|length > 0 %}
   <div class="table-responsive">
