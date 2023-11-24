@@ -1,6 +1,6 @@
 import time
 from pathlib import Path
-
+import pandas as pd
 import streamlit as st
 
 from project.source.inference import TemplateModel
@@ -33,7 +33,7 @@ class Gui:
         self.output_container = st.container()
         self.text_input_form: st.text_area or None = None
         self.submit_button: st.button or None = None
-
+        self.output_table: st.table or None = None
         st.markdown(button_style, unsafe_allow_html=True)
         self.draw_head()
         self.draw_input()
@@ -81,11 +81,19 @@ class Gui:
         """
         # time.sleep(2)
         st.text(self.model.predict(text))
+        df = pd.DataFrame(columns=["Параметр", "Значение"])
+        df.loc[len(df.index)] = [0, 0]
+        # self.draw_table(df)
 
-        #
-        # with self.output_container:
-        #     st.markdown('<h2> Ваше заявление принято </h2>', unsafe_allow_html=True)
-        #     st.markdown(f'<div> {text} </div>', unsafe_allow_html=True)
+    # def draw_table(self, df):
+    #     if self.submit_button:
+    #         with self.output_container:
+    #             self.output_table = st.table(df)
+
+    #
+    # with self.output_container:
+    #     st.markdown('<h2> Ваше заявление принято </h2>', unsafe_allow_html=True)
+    #     st.markdown(f'<div> {text} </div>', unsafe_allow_html=True)
 
 
 Gui()
