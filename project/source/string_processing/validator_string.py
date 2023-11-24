@@ -16,7 +16,7 @@ pattern_number = re.compile(
 pattern_digit = re.compile(r"\+?\d+")
 
 pattern_data = re.compile(
-    r"\b(\d{1,2}\W\d{1,2}\W\d{2,4}|\d{2,4}\W\d{1,2}\W\d{1,2})\b"
+    r"\b(\d{1,2}\W\d{1,2}\W\d{2}|\d{2}\W\d{1,2}\W\d{1,2}|\d{1,2}\W\d{1,2}\W\d{4}|\d{4}\W\d{1,2}\W\d{2})\b"
     # "/(0?[1-9]|[12][0-9]|3[01])[\/\-\.](0?[1-9]|1[012])[ \/\.\-]/"
 )
 
@@ -88,7 +88,7 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
     return raw_text
 
 
-def string_validator(raw_text: str):
+def string_validator(raw_text: str) -> (dict, str):
     """
     Validation string for output on the screen
 
@@ -177,7 +177,7 @@ def replace_day(raw_text: str) -> str:
 
 
 if __name__ == "__main__":
-    raw_text = " dssssssssssssssssd 8(929) 296 14 84 sdsdsd@sds.ru завтра/вчера  20 12 36"
+    raw_text = "8(929) - 296 - 14 - 84"
     raw_text = preprocess_str(raw_text)
     res = string_validator(raw_text)
     preprocess_for_model(raw_text)
