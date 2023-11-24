@@ -9,7 +9,8 @@ from project.source.string_processing.validator_string import (
 
 
 def find_start_end(string, pattern):
-    print(f"{string=} {pattern=}")
+    for elem in r"\.^$*+?{}[]|()":
+        pattern = pattern.replace(f"{elem}", rf"\{elem}")
     matches = re.finditer(pattern, string)
     start_end_list = []
     for match in matches:
