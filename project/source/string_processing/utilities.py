@@ -1,7 +1,7 @@
 import re
 import time
 
-from project.source.string_processing.string_processing import string_processing
+from project.source.string_processing.validator_string import string_validator
 
 
 def find_start_end(string, pattern):
@@ -13,7 +13,7 @@ def find_start_end(string, pattern):
 
 
 def highlight_words(text):
-    to_highlight = string_processing(text)
+    to_highlight = string_validator(text)
     print(f"{to_highlight=}")
     new_text = text
     end_tag = "</u></a>"
@@ -49,5 +49,4 @@ if __name__ == "__main__":
     text = (
         "ддддддывывыфыфыфы  89164444444  asasasasa@gmail.com   asasas@gmail.com"
     )
-    # text = '1234'
     print(highlight_words(text))

@@ -9,6 +9,7 @@ from project.source.config import (
     MODEL_PATH,
 )
 from project.source.ml.classifier import Classifier
+from project.source.utils import theme_to_group
 
 
 def setup_model():
@@ -43,5 +44,14 @@ def setup_model():
 
 if __name__ == "__main__":
     model = setup_model()
-    output = model.predict(["Обколоться бы вакциной"])
-    print(output)
+    executors, themes = model.predict(
+        ["Как же я обожаю вакцины", "Камазы, бетон и дороги очень сложно ехать"]
+    )
+    theme_to_group_mapping = theme_to_group(processing=True)
+
+    groups = [theme_to_group_mapping[theme] for theme in themes]
+    print(
+        f"Исполнитель: {executors}\n",
+        f"Тема: {themes}\n",
+        f"Группа тем: {groups}\n",
+    )
