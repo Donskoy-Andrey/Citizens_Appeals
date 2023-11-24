@@ -34,6 +34,11 @@ a {
   visibility: visible;
 }
 
+.table{
+  width: 80%;
+  margin-left: 10%;
+}
+
 table tr:hover td {
     background-color: rgb(61,65,69); /* Change to the desired background color */
 }
@@ -66,19 +71,23 @@ table tr:hover td {
 }
 
 .response_container {
-  display: flex;
+  /*display: flex;*/
   justify-content: center;
   font-size: 18px;
+  width: 80%;
+  align-items: center;
+  margin-left: 10%;
 }
 
 .highlighted_text {
   border-radius: 5px;
   width: auto;
-  height: auto;
-  padding: 1px 4px 2px 4px;
+  height: fit-content;
+  /*padding: 1px 4px 2px 4px;*/
   color: #000000;
   margin-left: 1px;
   margin-right: 1px;
+  white-space: nowrap;
 }
 
 .phone_number{
@@ -114,14 +123,17 @@ table tr:hover td {
 }
 
 .negative {
+  /*margin-left: 48%;*/
   text-decoration: darkred underline;
 }
 
 .positive {
+  /*margin-left: 48%;*/
   text-decoration: lightgreen underline;
 }
 
 .neutral {
+  /*margin-left: 48%;*/
   text-decoration: cornflowerblue underline;
 }
 
@@ -131,4 +143,13 @@ table tr:hover td {
   width: 80%;
   align-items: center;
   margin: 0 auto;
+}
+
+.form-select{
+  width: 50%;
+}
+
+.select-container {
+  flex: 1; /* Fill remaining space */
+  max-width: 200px; /* Set maximum width */
 }

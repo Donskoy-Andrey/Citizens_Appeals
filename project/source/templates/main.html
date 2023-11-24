@@ -4,11 +4,11 @@
 <form method="post">
   {% csrf_token %}
   <div class="text-input-container">
-    <label for="post_content" class="form-subtitle">Введите ваше обращение:</label><br>
+    <label for="post_content" class="form-subtitle">Введите обращение:</label><br>
     <textarea class="form-control" id="post_content" name="post_content" style="height: 100px; border: 1px solid;"></textarea><br>
     <div class="button-container">
       <button type="submit" class="btn btn-primary" style="margin-top: 0; margin-bottom: 2%;">Отправить</button>
-      <a class="btn btn-outline-primary" style="width: 100px" href="/dashboard">stats</a>
+      <a class="btn btn-outline-primary" style="width: 105px; margin-bottom: 2%;" href="/dashboard">Статистика</a>
     </div>
     <img src="https://media.tenor.com/_4YgA77ExHEAAAAd/rick-roll.gif" id="loadingGif" style="display: none;">
   </div>
@@ -16,27 +16,27 @@
 
 {% if text %}
   {% if sentiment == "negative" %}
-    <div class="response_container">
-      <div style="font-size: 40px; margin-top: -2%">
+    <div class="response_container word">
+      {{text|safe}}
+      <div style="font-size: 40px; margin-top: 2%; text-align: center;">
         &#129324;
       </div>
-      {{text|safe}}
     </div>
   {% endif %}
   {% if sentiment == "positive" %}
     <div class="response_container">
-      <div style="font-size: 40px; margin-top: -2%">
+      {{text|safe}}
+      <div style="font-size: 40px; margin-top: 2%; text-align: center;">
        &#128578;
       </div>
-      {{text|safe}}
     </div>
   {% endif %}
   {% if sentiment == "neutral" %}
     <div class="response_container">
-      <div style="font-size: 40px; margin-top: -2%">
+      {{text|safe}}
+      <div style="font-size: 40px; margin-top: 2%; text-align: center;" >
        &#128528;
       </div>
-      {{text|safe}}
     </div>
   {% endif %}
 
@@ -61,8 +61,6 @@
       </tbody>
     </table>
   </div>
-{% else %}
-  <div>Данные не распознаны</div>
 {% endif %}
 
 

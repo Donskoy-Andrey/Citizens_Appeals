@@ -9,7 +9,9 @@ from project.source.string_processing.validator_string import (
 
 
 def find_start_end(string, pattern):
+    print(f"{string=} {pattern=}")
     matches = re.finditer(pattern, string)
+    print("hui")
     start_end_list = []
     for match in matches:
         start_end_list.append((match.start(), match.end()))
@@ -25,7 +27,7 @@ def highlight_words(text):
 
     for key, value in dict(to_highlight, **to_highlight_additional).items():
         if key == "Номер":
-            tag = '<a class="highlighted_text phone_number"><u><span class="tooltip-text phone_number" id="top">Номер</span>'
+            tag = '<a class="highlighted_text phone_number"><u><span class="tooltip-text phone_number" id="top">Номер</span> '
         elif key == "Ссылки":
             tag = '<a class="highlighted_text link"><u><span class="tooltip-text link" id="top">Ссылка</span>'
         elif key == "Почта":
