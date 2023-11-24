@@ -11,7 +11,6 @@ from project.source.string_processing.validator_string import (
 def find_start_end(string, pattern):
     print(f"{string=} {pattern=}")
     matches = re.finditer(pattern, string)
-    print("hui")
     start_end_list = []
     for match in matches:
         start_end_list.append((match.start(), match.end()))
