@@ -1,7 +1,7 @@
 ## Install Python dependencies
 install:
 	@echo "$$(tput bold)Installing python dependencies...$$(tput sgr0)"
-	python3 -m pip install poetry
+	pip install poetry
 	poetry install
 	poetry run pre-commit install
 
@@ -9,6 +9,12 @@ install:
 activate:
 	@echo "$$(tput bold)Activating virtual environment...$$(tput sgr0)"
 	poetry shell
+
+## Install weights
+weights:
+	wget https://www.donskow.com/distilbert.pt -O models/distilbert.pt
+	wget https://www.donskow.com/executor_encoder.obj -O models/executor_encoder.obj
+	wget https://www.donskow.com/theme_encoder.obj -O models/theme_encoder.obj
 
 ## Setup project
 setup: install activate
@@ -70,3 +76,6 @@ help:
 		printf "\n"; \
 	}' \
 	| more $(shell test $(shell uname) = Darwin && echo '--no-init --raw-control-chars')
+
+runui:
+	poetry run streamlit run project/source/web/ui.py

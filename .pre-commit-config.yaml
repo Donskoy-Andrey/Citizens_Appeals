@@ -20,12 +20,6 @@ repos:
       # Предотвращает сохранение приватных ключей
       - id: detect-private-key
 
-  # Задание порядка импорта
-  -   repo: https://github.com/timothycrosley/isort
-      rev: 5.12.0
-      hooks:
-      -   id: isort
-
   # Flake8
   - repo: 'https://github.com/pycqa/flake8'
     rev: 3.8.4
