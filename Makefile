@@ -72,4 +72,4 @@ help:
 	| more $(shell test $(shell uname) = Darwin && echo '--no-init --raw-control-chars')
 
 runui:
-	poetry run python manage.py runserver
+	poetry run python .\project\source\manage.py runserver

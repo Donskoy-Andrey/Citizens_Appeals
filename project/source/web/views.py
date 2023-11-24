@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from project.source.string_processing.utilities import highlight_words
 from project.source.ml.inference import setup_model
 from project.source.utils import theme_to_group
+from project.source.web.models import Appeal
 
 ml_model = setup_model()
 theme_to_group_mapping = theme_to_group(processing=True)
@@ -27,6 +28,14 @@ def main_win(request):
                 f"Тема: {themes}\n",
                 f"Группа тем: {groups}\n",
             )
+            record = Appeal(
+                text=text,
+                executor=executors[0],
+                theme=themes[0],
+                group=groups[0],
+            )
+            record.save()
+
             return render(
                 request,
                 "main.html",
