@@ -1,9 +1,9 @@
-import time
 from pathlib import Path
-import pandas as pd
+
 import streamlit as st
 
-from project.source.ml.inference import setup_model
+from project.source.string_processing.string_processing import string_processing
+from project.source.string_processing.utilities import highlight_words
 
 SRC_PATH = "project/source/web/src/"
 DOWNLOAD_FILENAME = Path("data/file.pdf")
@@ -13,10 +13,32 @@ button_style = """
         {
             color: white;
             background: #008FD0;
-            width: 100
-            px;
-            height: 50;
+            border-color: #0066cc;
         }
+        .stButton > button:focus {
+            border-color: #ffffff;
+            box-shadow: none;
+            color: #ffffff;
+            background-color: #0066cc;
+        }
+        .stButton > button:focus {
+            border-color: #ffffff;
+            box-shadow: none;
+            color: #ffffff;
+            background-color: #0066cc;
+        }
+        .stButton > button:focus:not(:active) {
+            color: white;
+            background: #008FD0;
+            border-color: #0066cc;
+        }
+       .stButton > button:hover{
+            border-color: #0066cc;
+            box-shadow: none;
+            color: #ffffff;
+            background-color: #0066cc;
+       }
+
         </style>
         """
 
@@ -26,14 +48,14 @@ class Gui:
         """
         Initialize the class Gui
         """
-        self.model = setup_model()
+        print(f"{st.__version__=}")
         st.set_page_config(layout="wide")
         self.head_container = st.container()
         self.input_container = st.container()
         self.output_container = st.container()
         self.text_input_form: st.text_area or None = None
         self.submit_button: st.button or None = None
-        self.output_table: st.table or None = None
+
         st.markdown(button_style, unsafe_allow_html=True)
         self.draw_head()
         self.draw_input()
@@ -55,13 +77,15 @@ class Gui:
             )
 
     def draw_input(self):
+        """
+        draw input box and submit button
+        """
         with self.input_container:
             self.text_input_form = st.text_area(
                 label="text_input_1",
                 placeholder="Введите обращение...",
                 label_visibility="hidden",
                 height=400,
-                key="text",
             )
             self.submit_button = st.button(
                 label="Submit",
@@ -69,31 +93,19 @@ class Gui:
             )
 
     def submit_click(self):
-        gif_path = "https://donskow.com/train4"
-        with self.input_container:
-            gif_runner = st.image(gif_path)
         self.draw_accepted(self.text_input_form)
-        gif_runner.empty()
 
     def draw_accepted(self, text):
-        """
-        YOUR CODE HERE
-        """
-        # time.sleep(2)
-        st.text(self.model.predict(text))
-        df = pd.DataFrame(columns=["Параметр", "Значение"])
-        df.loc[len(df.index)] = [0, 0]
-        # self.draw_table(df)
+        print(f"{ string_processing(text)=}")
+        html = highlight_words(text)
+        print(html)
+        # with self.output_container:
+        print(f"{html=}")
+        with self.output_container:
+            # print(f"{self.output_container.=}")
+            st.markdown(html, unsafe_allow_html=True)
 
-    # def draw_table(self, df):
-    #     if self.submit_button:
-    #         with self.output_container:
-    #             self.output_table = st.table(df)
-
-    #
-    # with self.output_container:
-    #     st.markdown('<h2> Ваше заявление принято </h2>', unsafe_allow_html=True)
-    #     st.markdown(f'<div> {text} </div>', unsafe_allow_html=True)
+        # st.markdown(f"<div> aaa </div>", unsafe_allow_html=True)
 
 
 Gui()

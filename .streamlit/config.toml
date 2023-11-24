@@ -1,11 +1,12 @@
 [theme]
-primaryColor="#31333f"
+primaryColor="#ffffff"
 #backgroundColor="#24272E"
 #backgroundColor="#6B6B6B"
 #backgroundColor="#243119" #1
-backgroundColor="#082c3c" #2
+#backgroundColor="#082c3c" #2
 #backgroundColor="#ffffff" #3
 #backgroundColor="#002B3A" #4
-secondaryBackgroundColor="#ebfcef"
-textColor="#008FD0"
+secondaryBackgroundColor="#ffffff"
+#textColor="#008FD0"
+textColor="#000000"
 font="sans serif"
