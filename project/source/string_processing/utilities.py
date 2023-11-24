@@ -1,14 +1,13 @@
 import re
-import time
-
 from project.source.ml.entity import predict_entity
 from project.source.string_processing.validator_string import (
-    preprocess_str,
     string_validator,
 )
 
 
 def find_start_end(string, pattern):
+    for elem in r"\.^$*+?{}[]|()":
+        pattern = pattern.replace(f"{elem}", rf"\{elem}")
     matches = re.finditer(pattern, string)
     start_end_list = []
     for match in matches:
