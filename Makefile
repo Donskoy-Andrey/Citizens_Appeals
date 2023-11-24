@@ -10,8 +10,12 @@ activate:
 	@echo "$$(tput bold)Activating virtual environment...$$(tput sgr0)"
 	poetry shell
 
+## Migration
+migration:
+	poetry run python project/source/manage.py migrate
+
 ## Setup project
-setup: install activate
+setup: install activate migration
 
 test:
 	@echo "$$(tput bold)Running tests...$$(tput sgr0)"
@@ -73,3 +77,6 @@ help:
 
 runui:
 	poetry run python .\project\source\manage.py runserver
+
+run_linux:
+	poetry run python project/source/manage.py runserver

@@ -1,29 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form method="post">
-    {% csrf_token %}
-    <div class = "text-input-container">
-      <label for="post_content" class="form-subtitle">Введите ваше обращение:</label><br>
-      <textarea class="form-control" id="post_content" name="post_content" style="height: 100px; border: 1px solid;"></textarea><br>
-      <button type="submit" class="btn btn-primary" style="margin-top: -2%;">Отправить</button>
-      <img src="https://media.tenor.com/_4YgA77ExHEAAAAd/rick-roll.gif" id="loadingGif" style="display: none;">
+<form method="post">
+  {% csrf_token %}
+  <div class="text-input-container">
+    <label for="post_content" class="form-subtitle">Введите обращение:</label><br>
+    <textarea class="form-control" id="post_content" name="post_content" style="height: 100px; border: 1px solid;"></textarea><br>
+    <div class="button-container">
+      <button type="submit" class="btn btn-primary" style="margin-top: 0; margin-bottom: 2%;">Отправить</button>
+      <a class="btn btn-outline-primary" style="width: 105px; margin-bottom: 2%;" href="/dashboard">Статистика</a>
     </div>
+    <img src="https://media.tenor.com/_4YgA77ExHEAAAAd/rick-roll.gif" id="loadingGif" style="display: none;">
+  </div>
 </form>
 
 {% if text %}
-{{text|safe}}
-{% endif %}
+  {% if sentiment == "negative" %}
+    <div class="response_container word">
+      {{text|safe}}
+      <div style="font-size: 40px; margin-top: 2%; text-align: center;">
+        &#129324;
+      </div>
+    </div>
+  {% endif %}
+  {% if sentiment == "positive" %}
+    <div class="response_container">
+      {{text|safe}}
+      <div style="font-size: 40px; margin-top: 2%; text-align: center;">
+       &#128578;
+      </div>
+    </div>
+  {% endif %}
+  {% if sentiment == "neutral" %}
+    <div class="response_container">
+      {{text|safe}}
+      <div style="font-size: 40px; margin-top: 2%; text-align: center;" >
+       &#128528;
+      </div>
+    </div>
+  {% endif %}
 
-<style>
-  table tr:hover td {
-    background-color: #f5f5f5; /* Change to the desired background color */
-  }
-</style>
+{% endif %}
 
 {% if executor|length > 0 and theme|length > 0 and group|length > 0 %}
   <div class="table-responsive">
-    <table id="myTable" class="table table-striped table-bordered">
+    <table id="myTable" class="table table-striped table-bordered" style="margin-top: 10px">
       <thead>
         <tr>
           <th>Исполнитель</th>
@@ -40,11 +61,8 @@
       </tbody>
     </table>
   </div>
-{% else %}
-  <div>Данные не распознаны</div>
 {% endif %}
 
 
 
-<a class="btn btn-primary" href="/dashboard">stats</a>
 {% endblock %}

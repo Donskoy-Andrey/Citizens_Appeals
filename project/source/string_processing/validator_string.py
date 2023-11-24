@@ -88,7 +88,7 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
     return raw_text
 
 
-def string_validator(raw_text: str) -> dict | int:
+def string_validator(raw_text: str):
     """
     Validation string for output on the screen
 
@@ -106,17 +106,13 @@ def string_validator(raw_text: str) -> dict | int:
     }
 
     if not isinstance(raw_text, str):
-        for key in valid_data.keys():
-            valid_data[key] = 0
-        return valid_data
+        return valid_data, raw_text
 
     if len(raw_text) <= 5:
-        for key in valid_data.keys():
-            valid_data[key] = 0
-        return valid_data  # некорректная строка
-    print(f"before {raw_text}")
+        return valid_data, raw_text
+
     raw_text = replace_day(raw_text)
-    print(f"after {raw_text}")
+
     numbers = pattern_number.findall(raw_text)
     for num in numbers:
         num1 = pattern_digit.findall(num)
