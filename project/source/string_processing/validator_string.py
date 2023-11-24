@@ -73,7 +73,6 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
         raw_text = raw_text[1:]
     if demojize:
         raw_text = emoji.demojize(raw_text, "")
-
     VK_regexp = re.compile(r"\[(?P<ID>\w+)\|(?P<NAME>[^\[^\]]*)\]")
     raw_text = VK_regexp.sub("\g<NAME>", raw_text)
 
@@ -114,8 +113,9 @@ def string_validator(raw_text: str) -> dict | int:
         for key in valid_data.keys():
             valid_data[key] = 0
         return valid_data  # некорректная строка
-
+    print(f"before {raw_text}")
     raw_text = replace_day(raw_text)
+    print(f"after {raw_text}")
     numbers = pattern_number.findall(raw_text)
     for num in numbers:
         num1 = pattern_digit.findall(num)
