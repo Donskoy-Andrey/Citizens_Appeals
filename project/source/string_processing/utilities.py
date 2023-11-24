@@ -39,8 +39,11 @@ def highlight_words(text):
         elif key == "organization":
             tag = '<a class="highlighted_text organization"><u><span class="tooltip-text organization" id="top">Организация</span>'
         for word in value:
+            print(f"{new_text.lower()=} {word.lower()=} ")
             positions = find_start_end(new_text.lower(), word.lower())
             for i in range(len(positions)):
+
+                time.sleep(1)
                 pos = find_start_end(new_text.lower(), word.lower())
                 new_text = (
                     new_text[: pos[i][0]]

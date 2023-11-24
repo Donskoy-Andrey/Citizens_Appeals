@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-<form id="myForm" method="post" >
+<div class="form-container">
+  <form id="myForm" method="post">
+    <a class="btn btn-outline-primary" style="width: 200px; margin-right: 10px;" href="/">Назад</a>
     {%csrf_token%}
-  <select name="selected_option" value={{selected}} onchange="this.form.submit()">
-    <option value="Исполнитель" {% if selected == "Исполнитель" %}selected{% endif %}>Исполнитель</option>
-    <option value="Группа тем" {% if selected == "Группа тем" %}selected{% endif %}>Группа тем</option>
-  </select>
-</form>
+    <select name="selected_option" value={{selected}} onchange="this.form.submit()">
+      <option value="Исполнитель" {% if selected == "Исполнитель" %}selected{% endif %}>Исполнитель</option>
+      <option value="Группа тем" {% if selected == "Группа тем" %}selected{% endif %}>Группа тем</option>
+    </select>
+  </form>
+</div>
 <div id="plot_div">
 
     {% autoescape off %}
