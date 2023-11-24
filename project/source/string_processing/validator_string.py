@@ -69,9 +69,8 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
     """
 
     raw_text = raw_str
-    if raw_text[0] == "'" or '" ':
+    if raw_text[0] == "'" or raw_text[0] == '"':
         raw_text = raw_text[1:]
-
     if demojize:
         raw_text = emoji.demojize(raw_text, "")
 
@@ -138,7 +137,7 @@ def string_validator(raw_text: str) -> dict | int:
     datas = pattern_data.findall(raw_text)
     valid_data["Дата"].extend(set(datas))
 
-    return valid_data
+    return valid_data, raw_text
 
 
 def replace_day(raw_text: str) -> str:
@@ -181,8 +180,7 @@ def replace_day(raw_text: str) -> str:
 
 
 if __name__ == "__main__":
-    raw_text = " dssssssssssssssssd 8(929) 296 14 84 sdsdsd@sds.ru завтра/вчера  20 12 36"
+    raw_text = "dssssssssssssssssd 8(929) 296 14 84 sdsdsd@sds.ru завтра/вчера  20 12 36"
     raw_text = preprocess_str(raw_text)
     res = string_validator(raw_text)
     preprocess_for_model(raw_text)
-    # print(res)
