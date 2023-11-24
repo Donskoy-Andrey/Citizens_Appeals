@@ -1,5 +1,6 @@
 import re
 import emoji
+from datetime import date, timedelta
 
 pattern_mail = re.compile(
     r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
@@ -8,13 +9,51 @@ pattern_link = re.compile(
     r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
 )
 pattern_number = re.compile(
-    "\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}"
+    # r'\b(\+?[7,8]\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b'
+    "(\\+?\\d{1,4}?[-.\\s]?\\(?\\d{2,3}?\\)?[-.\\s]?\\d{2,4}[-.\\s]?\\d{2,4}[-.\\s]?\\d{2,9})"
 )
+# "(\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9})"
 pattern_digit = re.compile(r"\+?\d+")
 
 pattern_data = re.compile(
     r"\b(\d{1,2}\W\d{1,2}\W\d{2,4}|\d{2,4}\W\d{1,2}\W\d{1,2})\b"
+    # "/(0?[1-9]|[12][0-9]|3[01])[\/\-\.](0?[1-9]|1[012])[ \/\.\-]/"
 )
+
+
+def preprocess_for_model(raw_str: str) -> str:
+    """
+    Preprocess  citizen's appeal for neural model
+
+    Parameters
+    ----------
+    raw_str : str
+        Citizen's appeal.
+    """
+    numbers = pattern_number.findall(raw_str)
+    for num in numbers:
+        num1 = pattern_digit.findall(num)
+        num_concoction = "".join(num1)
+
+        if num_concoction[0] == "+":
+            if len(num_concoction[1:]) == 11:
+                raw_str = raw_str.replace(num, "(номер телефона)")
+        else:
+            if len(num_concoction) == 11:
+                raw_str = raw_str.replace(num, "(номер телефона)")
+
+    links = pattern_link.findall(raw_text)
+    for link in links:
+        raw_str = raw_str.replace(link, "(ccылка)")
+
+    mails = pattern_mail.findall(raw_text)
+    for mail in mails:
+        raw_str = raw_str.replace(mail, "(почта)")
+
+    datas = pattern_data.findall(raw_text)
+    for data in datas:
+        raw_str = raw_str.replace(data, "(дата)")
+    return raw_str
 
 
 def preprocess_str(raw_str: str, demojize: bool = True) -> str:
@@ -30,7 +69,9 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
     """
 
     raw_text = raw_str
-    raw_text = raw_text[1:]
+    if raw_text[0] == "'" or '" ':
+        raw_text = raw_text[1:]
+
     if demojize:
         raw_text = emoji.demojize(raw_text, "")
 
@@ -50,22 +91,13 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
 
 def string_validator(raw_text: str) -> dict | int:
     """
-    Input string validation
+    Validation string for output on the screen
 
     Parameters
     ----------
     raw_text : str
         Citizen's appeal.
     """
-
-    if not isinstance(raw_text, str):
-        return 0  # неверный формат данных
-
-    if len(raw_text) <= 5:
-        return 1  # некорректная строка
-
-    raw_text = preprocess_str(raw_text)
-
     valid_data = {
         "Номер": [],
         "Ссылки": [],
@@ -74,6 +106,17 @@ def string_validator(raw_text: str) -> dict | int:
         "Дата": [],
     }
 
+    if not isinstance(raw_text, str):
+        for key in valid_data.keys():
+            valid_data[key] = 0
+        return valid_data
+
+    if len(raw_text) <= 5:
+        for key in valid_data.keys():
+            valid_data[key] = 0
+        return valid_data  # некорректная строка
+
+    raw_text = replace_day(raw_text)
     numbers = pattern_number.findall(raw_text)
     for num in numbers:
         num1 = pattern_digit.findall(num)
@@ -98,8 +141,48 @@ def string_validator(raw_text: str) -> dict | int:
     return valid_data
 
 
+def replace_day(raw_text: str) -> str:
+    """
+    replacing text data with datatime
+
+    Parameters
+    ----------
+    raw_text : str
+        Citizen's appeal.
+    """
+
+    days = [
+        "позавчера",
+        "послезавтра",
+        "вчера",
+        "сегодня",
+        "завтра",
+    ]
+    for day in days:
+        if day == "послезавтра":
+            raw_text = raw_text.replace(
+                day, f"{date.today() + timedelta(days=2)}"
+            )
+        if day == "позавчера":
+            raw_text = raw_text.replace(
+                day, f"{date.today()- timedelta(days=2)}"
+            )
+        if day == "вчера":
+            raw_text = raw_text.replace(
+                day, f"{date.today() - timedelta(days=1)}"
+            )
+        if day == "сегодня":
+            raw_text = raw_text.replace(day, f"{date.today()}")
+        if day == "завтра":
+            raw_text = raw_text.replace(
+                day, f"{date.today() + timedelta(days=1)}"
+            )
+    return raw_text
+
+
 if __name__ == "__main__":
-    raw_text = "Пермь"
+    raw_text = " dssssssssssssssssd 8(929) 296 14 84 sdsdsd@sds.ru завтра/вчера  20 12 36"
     raw_text = preprocess_str(raw_text)
     res = string_validator(raw_text)
-    print(res)
+    preprocess_for_model(raw_text)
+    # print(res)
