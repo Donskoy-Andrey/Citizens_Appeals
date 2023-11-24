@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Appeal(models.Model):
@@ -7,7 +8,7 @@ class Appeal(models.Model):
     executor = models.TextField()
     theme = models.TextField()
     group = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{self.text}: {self.theme}"
+        return f"{self.text}: {self.theme} {self.date}"
