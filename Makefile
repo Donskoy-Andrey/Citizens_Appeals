@@ -12,6 +12,7 @@ activate:
 
 ## Migration
 migration:
+	poetry run python project/source/manage.py makemigrations --merg
 	poetry run python project/source/manage.py migrate
 
 ## Setup project
