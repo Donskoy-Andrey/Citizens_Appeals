@@ -1,10 +1,14 @@
 import re
 import time
 
-from project.source.string_processing.validator_string import string_validator
+from project.source.string_processing.validator_string import (
+    preprocess_str,
+    string_validator,
+)
 
 
 def find_start_end(string, pattern):
+    print(f"{string=} {pattern}")
     matches = re.finditer(pattern, string)
     start_end_list = []
     for match in matches:
@@ -12,13 +16,10 @@ def find_start_end(string, pattern):
     return start_end_list
 
 
-def highlight_words(text):
-    to_highlight = string_validator(text)
-    print(f"{to_highlight=}")
-    new_text = text
+def highlight_words(text: str) -> str:
+    to_highlight, new_text = string_validator(preprocess_str(text))
     end_tag = "</u></a>"
     for key, value in to_highlight.items():
-        print(f"{value=}")
         if key == "Номер":
             tag = '<a style="background:green"><u>'
         elif key == "Ссылки":
@@ -29,9 +30,7 @@ def highlight_words(text):
             tag = '<a style="background:white"><u>'
         for word in value:
 
-            print(f"{new_text=} {word=}")
             positions = find_start_end(new_text, word)
-            print(f"{positions}")
             for i in range(len(positions)):
                 pos = find_start_end(new_text, word)
                 new_text = (

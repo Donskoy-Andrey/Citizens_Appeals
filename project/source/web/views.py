@@ -5,6 +5,10 @@ from project.source.utils import theme_to_group
 from project.source.web.models import Appeal
 import pandas as pd
 from plotly.offline import plot
+from project.source.string_processing.validator_string import (
+    preprocess_str,
+    string_validator,
+)
 import plotly.express as px
 
 from django.utils import timezone
@@ -18,12 +22,11 @@ def main_win(request):
     print(f"{request.POST=}")
     if "post_content" in request.POST:
         text = request.POST.get("post_content")
-        print(f"{text=}")
         if text == "":
             return render(request, "main.html")
         else:
             text = highlight_words(text)
-            executors, themes = ml_model.predict(text)
+            executors, themes = ml_model.predict(preprocess_str(text))
             print(f"{list(themes)=}")
             groups = [theme_to_group_mapping[theme] for theme in themes]
             print(
@@ -36,7 +39,6 @@ def main_win(request):
                 executor=executors[0],
                 theme=themes[0],
                 group=groups[0],
-                date=timezone.datetime(2023, 11, 20, 4, 55, 10),
             )
             record.save()
 
