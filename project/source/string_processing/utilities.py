@@ -17,6 +17,7 @@ def find_start_end(string, pattern):
 
 
 def highlight_words(text):
+    print(f"{string_validator(text)=}")
     to_highlight, new_text = string_validator(text)
     to_highlight_additional = predict_entity(new_text)
 
