@@ -42,15 +42,15 @@ def preprocess_for_model(raw_str: str) -> str:
             if len(num_concoction) == 11:
                 raw_str = raw_str.replace(num, "(номер телефона)")
 
-    links = pattern_link.findall(raw_text)
+    links = pattern_link.findall(raw_str)
     for link in links:
         raw_str = raw_str.replace(link, "(ccылка)")
 
-    mails = pattern_mail.findall(raw_text)
+    mails = pattern_mail.findall(raw_str)
     for mail in mails:
         raw_str = raw_str.replace(mail, "(почта)")
 
-    datas = pattern_data.findall(raw_text)
+    datas = pattern_data.findall(raw_str)
     for data in datas:
         raw_str = raw_str.replace(data, "(дата)")
     return raw_str
@@ -154,31 +154,28 @@ def replace_day(raw_text: str) -> str:
         "сегодня",
         "завтра",
     ]
-    for day in days:
-        if day == "послезавтра":
-            raw_text = raw_text.replace(
-                day, f"{date.today() + timedelta(days=2)}"
-            )
-        if day == "позавчера":
-            raw_text = raw_text.replace(
-                day, f"{date.today()- timedelta(days=2)}"
-            )
-        if day == "вчера":
-            raw_text = raw_text.replace(
-                day, f"{date.today() - timedelta(days=1)}"
-            )
-        if day == "сегодня":
-            raw_text = raw_text.replace(day, f"{date.today()}")
-        if day == "завтра":
-            raw_text = raw_text.replace(
-                day, f"{date.today() + timedelta(days=1)}"
-            )
+    raw_text_list = raw_text.split(" ")
+    for index, word in enumerate(raw_text_list):
+        if word.lower() in days:
+            if word.lower() == days[0]:
+                raw_text_list[index] = f"{date.today() - timedelta(days=2)}"
+            if word.lower() == days[1]:
+                raw_text_list[index] = f"{date.today() + timedelta(days=2)}"
+            if word.lower() == days[2]:
+                raw_text_list[index] = f"{date.today() - timedelta(days=1)}"
+            if word.lower() == days[3]:
+                raw_text_list[index] = f"{date.today()}"
+            if word.lower() == days[4]:
+                raw_text_list[index] = f"{date.today() + timedelta(days=1)}"
+
+    raw_text = " ".join(raw_text_list)
     return raw_text
 
 
 if __name__ == "__main__":
-    raw_text = " Я, инженер Петров Петр Петрович,проживающий по адресу ул. Кирова 17б в Перми не вышел на работу 20.04.2021 г., в Промобот поскольку плохо себя чувствовал в течение всего сегодняшнего дня. Я не стал оформлять листок нетрудоспособности, поскольку посчитал, что уже 21/04/2021 г. смогу приступить к работе, что и произошло. О своей болезни я сообщил руководителю Сидорову Сергею по почте sidorov@gmail.com 20-04-2021 г. примерно в 14-00, когда почувствовал себя лучше и смог сделать звонок по номеру 8(999)-999-99-99."
-    raw_text = preprocess_str(raw_text)
-    res = string_validator(raw_text)
-    preprocess_for_model(raw_text)
-    print(res)
+    # raw_text = " Я, инженер Петров Петр Петрович,проживающий по адресу ул. Кирова 17б в Перми не вышел на работу 20.04.2021 г., в Промобот поскольку плохо себя чувствовал в течение всего сегодняшнего дня. Я не стал оформлять листок нетрудоспособности, поскольку посчитал, что уже 21/04/2021 г. смогу приступить к работе, что и произошло. О своей болезни я сообщил руководителю Сидорову Сергею по почте sidorov@gmail.com 20-04-2021 г. примерно в 14-00, когда почувствовал себя лучше и смог сделать звонок по номеру 8(999)-999-99-99."
+    replace_day("Сегодня завтра был Вчера и позавчера ")
+    # raw_text = preprocess_str(raw_text)
+    # res = string_validator(raw_text)
+    # preprocess_for_model(raw_text)
+    # print(res)
