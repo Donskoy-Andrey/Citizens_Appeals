@@ -1,6 +1,12 @@
 import pandas as pd
 import emoji
 import re
+from project.source.string_processing.validator_string import (
+    pattern_mail,
+    pattern_link,
+    pattern_number,
+    pattern_data,
+)
 
 
 def preprocess_data(data: pd.DataFrame, demojize: bool = True) -> pd.DataFrame:
@@ -57,5 +63,21 @@ def preprocess_data(data: pd.DataFrame, demojize: bool = True) -> pd.DataFrame:
     processed_data["Текст инцидента"] = processed_data[
         "Текст инцидента"
     ].str.replace(multiple_whitespace_regexp, " ", regex=True)
+
+    processed_data["Текст инцидента"] = processed_data[
+        "Текст инцидента"
+    ].str.replace(pattern_mail, "(почта)", regex=True)
+
+    processed_data["Текст инцидента"] = processed_data[
+        "Текст инцидента"
+    ].str.replace(pattern_link, "(ccылка)", regex=True)
+
+    processed_data["Текст инцидента"] = processed_data[
+        "Текст инцидента"
+    ].str.replace(pattern_data, "(дата)", regex=True)
+
+    processed_data["Текст инцидента"] = processed_data[
+        "Текст инцидента"
+    ].str.replace(pattern_number, "(номер)", regex=True)
 
     return processed_data
