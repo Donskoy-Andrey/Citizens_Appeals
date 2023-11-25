@@ -2,6 +2,7 @@ import re
 import time
 
 from project.source.ml.entity import predict_entity
+from project.source.ml.trigger_word import trigger_word
 from project.source.string_processing.validator_string import (
     preprocess_str,
     string_validator,
@@ -75,26 +76,26 @@ def highlight_words(text: str) -> str:
         pass
 
 
-# def highlight_trigger(text: str, clear_text: str) -> (str, bool):
-#     tag = '<a class="highlighted_text trigger"><u><span class="tooltip-text phone_number" id="top">Номер</span> '
-#     end_tag = "</u></a>"
-#     trigger_words = ali_func(clear_text)
-#     if len(trigger_words) == 0:
-#         return text, False
-#     new_text = text
-#     for word in trigger_words:
-#         positions = find_start_end(new_text.lower(), word.lower())
-#         for i in range(len(positions)):
-#             pos = find_start_end(new_text.lower(), word.lower())
-#             new_text = (
-#                 new_text[: pos[i][0]]
-#                 + tag
-#                 + new_text[pos[i][0] : pos[i][1]]
-#                 + end_tag
-#                 + new_text[pos[i][1] :]
-#             )
-#
-#     return trigger_words, True
+def highlight_trigger(text: str, clear_text: str) -> (str, bool):
+    tag = '<a class="highlighted_text trigger_word"><u><span class="tooltip-text trigger_word" id="top">Триггер</span> '
+    end_tag = "</u></a>"
+    trigger_words = trigger_word(clear_text)
+    if len(trigger_words) == 0:
+        return text, False
+    new_text = text
+    for word in trigger_words:
+        positions = find_start_end(new_text.lower(), word.lower())
+        for i in range(len(positions)):
+            pos = find_start_end(new_text.lower(), word.lower())
+            new_text = (
+                new_text[: pos[i][0]]
+                + tag
+                + new_text[pos[i][0] : pos[i][1]]
+                + end_tag
+                + new_text[pos[i][1] :]
+            )
+
+    return new_text, True
 
 
 if __name__ == "__main__":

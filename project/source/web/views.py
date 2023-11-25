@@ -49,9 +49,11 @@ def main_win(request):
 
             text_screen = highlight_words(text_clean)
 
-            # text_screen, sentiment_trigger = highlight_trigger(text_screen, text_clean)
-            # if sentiment_trigger:
-            #     sentiment_addition = 'trigger'
+            text_screen, sentiment_trigger = highlight_trigger(
+                text_screen, text_clean
+            )
+            if sentiment_trigger:
+                sentiment_addition = "trigger"
             executors, themes = ml_model.predict(text_model)
 
             groups = [theme_to_group_mapping[theme] for theme in themes]
