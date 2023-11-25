@@ -30,30 +30,32 @@ def preprocess_for_model(raw_str: str) -> str:
     raw_str : str
         Citizen's appeal.
     """
-    numbers = pattern_number.findall(raw_str)
-    for num in numbers:
-        num1 = pattern_digit.findall(num)
-        num_concoction = "".join(num1)
+    try:
+        numbers = pattern_number.findall(raw_str)
+        for num in numbers:
+            num1 = pattern_digit.findall(num)
+            num_concoction = "".join(num1)
 
-        if num_concoction[0] == "+":
-            if len(num_concoction[1:]) == 11:
-                raw_str = raw_str.replace(num, "(номер телефона)")
-        else:
-            if len(num_concoction) == 11:
-                raw_str = raw_str.replace(num, "(номер телефона)")
+            if num_concoction[0] == "+":
+                if len(num_concoction[1:]) == 11:
+                    raw_str = raw_str.replace(num, "(номер телефона)")
+            else:
+                if len(num_concoction) == 11:
+                    raw_str = raw_str.replace(num, "(номер телефона)")
 
-    links = pattern_link.findall(raw_str)
-    for link in links:
-        raw_str = raw_str.replace(link, "(ccылка)")
+        links = pattern_link.findall(raw_str)
+        for link in links:
+            raw_str = raw_str.replace(link, "(ccылка)")
 
-    mails = pattern_mail.findall(raw_str)
-    for mail in mails:
-        raw_str = raw_str.replace(mail, "(почта)")
+        mails = pattern_mail.findall(raw_str)
+        for mail in mails:
+            raw_str = raw_str.replace(mail, "(почта)")
 
-    datas = pattern_data.findall(raw_str)
-    for data in datas:
-        raw_str = raw_str.replace(data, "(дата)")
-    return raw_str
+        datas = pattern_data.findall(raw_str)
+        for data in datas:
+            raw_str = raw_str.replace(data, "(дата)")
+    finally:
+        return raw_str
 
 
 def preprocess_str(raw_str: str, demojize: bool = True) -> str:
