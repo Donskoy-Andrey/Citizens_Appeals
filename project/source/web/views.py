@@ -31,7 +31,9 @@ def main_win(request):
             return render(request, "main.html")
         else:
             # _summary = summarize(text)
-            sentiment = predict_sentiment(text)
+            text_clean = preprocess_str(text)
+            text_model = preprocess_for_model(text_clean)
+            sentiment = predict_sentiment(text_model)
             sentiment_cases = {
                 "negative": "negative",
                 "positive": "positive",
@@ -40,11 +42,8 @@ def main_win(request):
             sentiment_addition = sentiment_cases.get(sentiment)
             if not sentiment_addition:
                 sentiment_addition = ""
-            text_clean = preprocess_str(text)
+
             text_screen = highlight_words(text_clean)
-
-            text_model = preprocess_for_model(text_clean)
-
             executors, themes = ml_model.predict(text_model)
 
             groups = [theme_to_group_mapping[theme] for theme in themes]
