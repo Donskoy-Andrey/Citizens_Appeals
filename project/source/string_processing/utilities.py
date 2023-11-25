@@ -5,6 +5,7 @@ from project.source.ml.entity import predict_entity
 from project.source.string_processing.validator_string import (
     preprocess_str,
     string_validator,
+    preprocess_for_model,
 )
 
 
@@ -18,10 +19,10 @@ def find_start_end(string, pattern):
     return start_end_list
 
 
-def highlight_words(text):
-    print(f"{string_validator(text)=}")
+def highlight_words(text: str) -> str:
     to_highlight, new_text = string_validator(text)
-    to_highlight_additional = predict_entity(new_text)
+    text_for_model = preprocess_for_model(text)
+    to_highlight_additional = predict_entity(text_for_model)
     print(to_highlight)
 
     end_tag = "</u></a>"
