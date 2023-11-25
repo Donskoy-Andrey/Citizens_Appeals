@@ -120,6 +120,8 @@ https://drive.google.com/drive/folders/1fy8hYLdW1pJfB4Mysfs18tn_m1ZxPiz9?usp=sha
 make run_linux
 ```
 
+Далее перейдите в браузере по адресу: http://127.0.0.1:8000/
+
 </details>
 
 
@@ -129,6 +131,8 @@ make run_linux
 ```linux
 make run_windows
 ```
+
+Далее перейдите в браузере по адресу: http://127.0.0.1:8000/
 
 </details>
 
