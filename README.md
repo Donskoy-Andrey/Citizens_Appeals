@@ -2,11 +2,11 @@
 
 ## Быстрый старт
 
-Перейдите по ссылке проекта: `donskow.com/project`.
+Перейдите по ссылке проекта: https://donskow.com/project.
 
 В случае ошибки связи необходимо очистить кэш браузера.
 
-Если это не помогает, свяжитесь с нами: `t.me/doncheg`.
+Если это не помогает, свяжитесь с нами: https://t.me/doncheg.
 
 ## Общая информация
 > Проект выполнен составом команды `AAA IT`:\
@@ -100,6 +100,16 @@ make help
 ```linux
 make setup
 ```
+
+</details>
+
+<details>
+  <summary>Добавление параметров модели</summary>
+
+Загрузите параметры модели с гугл-диска:
+https://drive.google.com/drive/folders/1fy8hYLdW1pJfB4Mysfs18tn_m1ZxPiz9?usp=sharing
+
+И положите их в папку `models` в корне проекта.
 
 </details>
 
