@@ -31,6 +31,7 @@ emoji = "^2.8.0"
 plotly = "^5.18.0"
 datetime = "^5.3"
 sentencepiece = "^0.1.99"
+spacy = "^3.7.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
