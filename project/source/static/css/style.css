@@ -135,6 +135,11 @@ table tr:hover td {
   text-decoration: cornflowerblue underline;
 }
 
+.trigger {
+  /*margin-left: 48%;*/
+  text-decoration: red underline;
+}
+
 .button-container {
   display: flex;
   justify-content: space-between;

@@ -1,12 +1,17 @@
+import datetime
 import time
 
 from django.shortcuts import render, redirect
-from project.source.string_processing.utilities import highlight_words
+from project.source.string_processing.utilities import (
+    highlight_words,
+    highlight_trigger,
+)
 from project.source.ml.inference import setup_model
 from project.source.ml.sentiment import predict_sentiment
 from project.source.ml.summary import summarize
 from project.source.utils import theme_to_group
 from project.source.web.models import Appeal
+from django.utils import timezone
 import pandas as pd
 from plotly.offline import plot
 from project.source.string_processing.validator_string import (
@@ -16,7 +21,6 @@ from project.source.string_processing.validator_string import (
 )
 import plotly.express as px
 
-from django.utils import timezone
 from project.source.web.graph_plotter import plot_hist, plot_time_series
 
 ml_model = setup_model()
@@ -44,6 +48,10 @@ def main_win(request):
                 sentiment_addition = ""
 
             text_screen = highlight_words(text_clean)
+
+            # text_screen, sentiment_trigger = highlight_trigger(text_screen, text_clean)
+            # if sentiment_trigger:
+            #     sentiment_addition = 'trigger'
             executors, themes = ml_model.predict(text_model)
 
             groups = [theme_to_group_mapping[theme] for theme in themes]
@@ -73,7 +81,6 @@ def main_win(request):
 
 
 def dashboard(request):
-    print(f"{request.POST=}")
 
     qs = Appeal.objects.all()
     projects_data = [
