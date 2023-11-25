@@ -1,38 +1,34 @@
 ## Install Python dependencies
 install:
-	@echo "$$(tput bold)Installing python dependencies...$$(tput sgr0)"
+	@echo "Installing python dependencies..."
 	python3 -m pip install poetry
 	poetry install
 	poetry run pre-commit install
 
 ## Activate virtual environment
 activate:
-	@echo "$$(tput bold)Activating virtual environment...$$(tput sgr0)"
+	@echo "Activating virtual environment..."
 	poetry shell
 
 ## Migration
 migration:
-	poetry run python project/source/manage.py makemigrations --merg
+	@echo "Make migrations..."
+	poetry run python project/source/manage.py makemigrations --merge
 	poetry run python project/source/manage.py migrate
 
 ## Setup project
 setup: install activate migration
 
 test:
-	@echo "$$(tput bold)Running tests...$$(tput sgr0)"
+	@echo "Running tests..."
 	poetry run pytest tests/
 
 ## Run tests
 tests: test
 
-## Run script
-run:
-	@echo "$$(tput bold)Running script...$$(tput sgr0)"
-	poetry run python project/source/main.py
-
 ## Clean cache files
 clean:
-	@echo "$$(tput bold)Cleaning cache files...$$(tput sgr0)"
+	@echo "Cleaning cache files..."
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 	rm -rf .pytest_cache
@@ -76,7 +72,7 @@ help:
 	}' \
 	| more $(shell test $(shell uname) = Darwin && echo '--no-init --raw-control-chars')
 
-runui:
+run_windows:
 	poetry run python .\project\source\manage.py runserver
 
 run_linux:
