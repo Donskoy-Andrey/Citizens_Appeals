@@ -105,6 +105,11 @@ table tr:hover td {
 
 }
 
+.trigger_word{
+  background-color: rgba(255,30,0, 1);
+  color: white;
+
+}
 
 .organization{
   background-color: rgba(255,185,117, 1);
@@ -137,7 +142,7 @@ table tr:hover td {
 
 .trigger {
   /*margin-left: 48%;*/
-  text-decoration: red underline;
+  text-decoration: white underline;
 }
 
 .button-container {

@@ -44,6 +44,14 @@
       </div>
     </div>
   {% endif %}
+{% if sentiment == "trigger" %}
+    <div class="response_container">
+      {{text|safe}}
+      <div style="font-size: 40px; margin-top: 2%; text-align: center;" >
+       &#9888;&#65039;
+      </div>
+    </div>
+  {% endif %}
 
 {% endif %}
 
