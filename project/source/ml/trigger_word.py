@@ -28,13 +28,17 @@ def trigger_word(text: str) -> list[str]:
         "изнасилование",
         "покушение",
         "убить",
+        "преступление",
+        "правонарушение",
     ]
     trigger_words = []
-    doc = nlp(text)
-    for token in doc:
-        if token.lemma_ in template_trigger_words:
-            trigger_words.append(token.text)
-    return trigger_words
+    try:
+        doc = nlp(text)
+        for token in doc:
+            if token.lemma_ in template_trigger_words:
+                trigger_words.append(token.text)
+    finally:
+        return trigger_words
 
 
 if __name__ == "__main__":
