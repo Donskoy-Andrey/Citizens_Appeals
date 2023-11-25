@@ -67,25 +67,30 @@ def preprocess_str(raw_str: str, demojize: bool = True) -> str:
     demojize : bool
         Convert emojis to plain text (takes time!)
     """
+    try:
+        raw_text = raw_str
+        if raw_text[0] == "'" or raw_text[0] == '"':
+            raw_text = raw_text[1:]
 
-    raw_text = raw_str
-    if raw_text[0] == "'" or raw_text[0] == '"':
-        raw_text = raw_text[1:]
+        if demojize:
+            raw_text = emoji.demojize(raw_text, "")
+        VK_regexp = re.compile(r"\[(?P<ID>\w+)\|(?P<NAME>[^\[^\]]*)\]")
+        raw_text = VK_regexp.sub("\g<NAME>", raw_text)
 
-    if demojize:
-        raw_text = emoji.demojize(raw_text, "")
-    VK_regexp = re.compile(r"\[(?P<ID>\w+)\|(?P<NAME>[^\[^\]]*)\]")
-    raw_text = VK_regexp.sub("\g<NAME>", raw_text)
+        whitespace_substrings = {"<br>", "\\n"}
+        whitespace_regexp = re.compile(
+            "|".join(
+                re.escape(substring) for substring in whitespace_substrings
+            )
+        )
+        raw_text = re.sub(whitespace_regexp, " ", raw_text)
 
-    whitespace_substrings = {"<br>", "\\n"}
-    whitespace_regexp = re.compile(
-        "|".join(re.escape(substring) for substring in whitespace_substrings)
-    )
-    raw_text = re.sub(whitespace_regexp, " ", raw_text)
-
-    ultiple_whitespace_regexp = re.compile("\s+")
-    raw_text = re.sub(ultiple_whitespace_regexp, " ", raw_text)
-    return raw_text
+        ultiple_whitespace_regexp = re.compile("\s+")
+        raw_text = re.sub(ultiple_whitespace_regexp, " ", raw_text)
+    except Exception:
+        return raw_str
+    else:
+        return raw_text
 
 
 def string_validator(raw_text: str):
@@ -104,40 +109,41 @@ def string_validator(raw_text: str):
         "Адрес:": [],
         "Дата": [],
     }
+    try:
+        if not isinstance(raw_text, str):
+            return valid_data, raw_text
 
-    if not isinstance(raw_text, str):
+        if len(raw_text) <= 5:
+            return valid_data, raw_text
+
+        raw_text = replace_day(raw_text)
+
+        numbers = pattern_number.findall(raw_text)
+        for num in numbers:
+            num1 = pattern_digit.findall(num)
+            num_concoction = "".join(num1)
+
+            if num_concoction[0] == "+":
+                if len(num_concoction[1:]) == 11:
+                    valid_data["Номер"].append(num)
+            else:
+                if len(num_concoction) == 11:
+                    valid_data["Номер"].append(num)
+
+        links = pattern_link.findall(raw_text)
+        valid_data["Ссылки"].extend(set(links))
+
+        mails = pattern_mail.findall(raw_text)
+        valid_data["Почта"].extend(set(mails))
+
+        datas = pattern_data.findall(raw_text)
+        valid_data["Дата"].extend(set(datas))
+    finally:
         return valid_data, raw_text
-
-    if len(raw_text) <= 5:
-        return valid_data, raw_text
-
-    raw_text = replace_day(raw_text)
-
-    numbers = pattern_number.findall(raw_text)
-    for num in numbers:
-        num1 = pattern_digit.findall(num)
-        num_concoction = "".join(num1)
-
-        if num_concoction[0] == "+":
-            if len(num_concoction[1:]) == 11:
-                valid_data["Номер"].append(num)
-        else:
-            if len(num_concoction) == 11:
-                valid_data["Номер"].append(num)
-
-    links = pattern_link.findall(raw_text)
-    valid_data["Ссылки"].extend(set(links))
-
-    mails = pattern_mail.findall(raw_text)
-    valid_data["Почта"].extend(set(mails))
-
-    datas = pattern_data.findall(raw_text)
-    valid_data["Дата"].extend(set(datas))
-
-    return valid_data, raw_text
 
 
 def replace_day(raw_text: str) -> str:
+
     """
     replacing text data with datatime
 
@@ -146,30 +152,31 @@ def replace_day(raw_text: str) -> str:
     raw_text : str
         Citizen's appeal.
     """
+    try:
+        days = [
+            "позавчера",
+            "послезавтра",
+            "вчера",
+            "сегодня",
+            "завтра",
+        ]
+        raw_text_list = raw_text.split(" ")
+        for index, word in enumerate(raw_text_list):
+            if word.lower() in days:
+                if word.lower() == days[0]:
+                    raw_text_list[index] = f"{date.today() - timedelta(days=2)}"
+                if word.lower() == days[1]:
+                    raw_text_list[index] = f"{date.today() + timedelta(days=2)}"
+                if word.lower() == days[2]:
+                    raw_text_list[index] = f"{date.today() - timedelta(days=1)}"
+                if word.lower() == days[3]:
+                    raw_text_list[index] = f"{date.today()}"
+                if word.lower() == days[4]:
+                    raw_text_list[index] = f"{date.today() + timedelta(days=1)}"
 
-    days = [
-        "позавчера",
-        "послезавтра",
-        "вчера",
-        "сегодня",
-        "завтра",
-    ]
-    raw_text_list = raw_text.split(" ")
-    for index, word in enumerate(raw_text_list):
-        if word.lower() in days:
-            if word.lower() == days[0]:
-                raw_text_list[index] = f"{date.today() - timedelta(days=2)}"
-            if word.lower() == days[1]:
-                raw_text_list[index] = f"{date.today() + timedelta(days=2)}"
-            if word.lower() == days[2]:
-                raw_text_list[index] = f"{date.today() - timedelta(days=1)}"
-            if word.lower() == days[3]:
-                raw_text_list[index] = f"{date.today()}"
-            if word.lower() == days[4]:
-                raw_text_list[index] = f"{date.today() + timedelta(days=1)}"
-
-    raw_text = " ".join(raw_text_list)
-    return raw_text
+        raw_text = " ".join(raw_text_list)
+    finally:
+        return raw_text
 
 
 if __name__ == "__main__":

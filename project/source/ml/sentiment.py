@@ -6,7 +6,10 @@ sentiment_analysis = pipeline(
 
 
 def predict_sentiment(text: str):
-    output = sentiment_analysis.predict(text)
-    label = output[0]["label"]
-
-    return label
+    try:
+        output = sentiment_analysis.predict(text)
+        label = output[0]["label"]
+        return label
+    except Exception:
+        print("###_Exception in sentiment prediction_###")
+        return ""
