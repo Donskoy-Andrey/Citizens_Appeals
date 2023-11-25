@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from project.source.string_processing.utilities import highlight_words
 from project.source.ml.inference import setup_model
 from project.source.ml.sentiment import predict_sentiment
+from project.source.ml.summary import summarize
 from project.source.utils import theme_to_group
 from project.source.web.models import Appeal
 import pandas as pd
@@ -28,6 +29,7 @@ def main_win(request):
         if text == "":
             return render(request, "main.html")
         else:
+            # _summary = summarize(text)
             sentiment = predict_sentiment(text)
             sentiment_cases = {
                 "negative": "negative",
@@ -59,6 +61,7 @@ def main_win(request):
                     "theme": themes[0],
                     "group": groups[0],
                     "sentiment": sentiment_addition,
+                    # "summary": _summary,
                 },
             )
     else:

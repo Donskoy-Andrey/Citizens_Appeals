@@ -10,6 +10,12 @@ from project.source.string_processing.validator_string import (
 
 
 def find_start_end(string, pattern):
+    """
+    Finds start and end indexes of pattern in string(for highlighting).
+    :param string:
+    :param pattern:
+    :return:
+    """
     for elem in r"\.^$*+?{}[]|()":
         pattern = pattern.replace(f"{elem}", rf"\{elem}")
     matches = re.finditer(pattern, string)
@@ -20,6 +26,11 @@ def find_start_end(string, pattern):
 
 
 def highlight_words(text: str) -> str:
+    """
+    Creates html block with highlighted objects;
+    :param text:
+    :return:
+    """
     try:
         to_highlight, new_text = string_validator(text)
         text_for_model = preprocess_for_model(text)

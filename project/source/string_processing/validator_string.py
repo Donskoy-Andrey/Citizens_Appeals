@@ -147,7 +147,7 @@ def string_validator(raw_text: str):
 def replace_day(raw_text: str) -> str:
 
     """
-    replacing text data with datatime
+    Convert text date/time words into datetime format entity.
 
     Parameters
     ----------

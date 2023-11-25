@@ -8,6 +8,11 @@ pipe = pipeline(
 
 
 def predict_entity(text: str):
+    """
+    Highlights entities such as date, organization, location in text.
+    :param text:
+    :return res | text:
+    """
     try:
         word_descriptions = pipe.predict(text)
         res = {

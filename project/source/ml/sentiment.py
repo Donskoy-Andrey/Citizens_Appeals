@@ -6,6 +6,11 @@ sentiment_analysis = pipeline(
 
 
 def predict_sentiment(text: str):
+    """
+    Defines sentiment of text.
+    :param text:
+    :return label:
+    """
     try:
         output = sentiment_analysis.predict(text)
         label = output[0]["label"]
