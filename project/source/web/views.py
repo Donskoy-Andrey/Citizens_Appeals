@@ -11,6 +11,7 @@ from plotly.offline import plot
 from project.source.string_processing.validator_string import (
     preprocess_str,
     string_validator,
+    preprocess_for_model,
 )
 import plotly.express as px
 
@@ -37,12 +38,16 @@ def main_win(request):
             sentiment_addition = sentiment_cases.get(sentiment)
             if not sentiment_addition:
                 sentiment_addition = ""
-            text = highlight_words(text)
-            executors, themes = ml_model.predict(preprocess_str(text))
+            text_clean = preprocess_str(text)
+            text_screen = highlight_words(text_clean)
+
+            text_model = preprocess_for_model(text_clean)
+
+            executors, themes = ml_model.predict(text_model)
 
             groups = [theme_to_group_mapping[theme] for theme in themes]
             record = Appeal(
-                text=text,
+                text=text_screen,
                 executor=executors[0],
                 theme=themes[0],
                 group=groups[0],
@@ -54,7 +59,7 @@ def main_win(request):
                 request,
                 "main.html",
                 {
-                    "text": text,
+                    "text": text_screen,
                     "executor": executors[0],
                     "theme": themes[0],
                     "group": groups[0],
