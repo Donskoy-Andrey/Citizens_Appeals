@@ -2,6 +2,7 @@
 install:
 	@echo "Installing python dependencies..."
 	python3 -m pip install poetry
+	python3 -m spacy download ru_core_news_sm
 	poetry install
 	poetry run pre-commit install
 
